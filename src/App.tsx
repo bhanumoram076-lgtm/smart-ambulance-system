@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { AuthProvider, useAuth } from '@/lib/auth';
 import Login from '@/pages/Login';
+import Landing from '@/pages/Landing';
 import DriverDashboard from '@/pages/DriverDashboard';
 import TrafficDashboard from '@/pages/TrafficDashboard';
 import HospitalDashboard from '@/pages/HospitalDashboard';
@@ -7,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 
 function AppContent() {
   const { user, loading } = useAuth();
+  const [showApp, setShowApp] = useState(false);
 
   if (loading) {
     return (
@@ -15,6 +18,8 @@ function AppContent() {
       </div>
     );
   }
+
+  if (!showApp && !user) return <Landing onLaunch={() => setShowApp(true)} />;
 
   if (!user) return <Login />;
 
